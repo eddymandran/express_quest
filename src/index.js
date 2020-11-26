@@ -81,6 +81,31 @@ app.post('/api/movies', (req, res) => {
   );
 });
 
+// This route will update a user in the DB
+app.put('/api/movies/:id', (req, res) => {
+  // We get the ID from the url:
+  const idMovie = req.params.id;
+
+  // We get the data from the req.body
+  const newTitle = req.body;
+  const newYear = req.body;
+  const newDuration = req.body;
+
+  // We send a UPDATE query to the DB
+  connection.query(
+    'UPDATE movies SET ?, ?, ? WHERE id = ?',
+    [newTitle, newYear, newDuration, idMovie],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Error updating a movie');
+      } else {
+        res.status(200).send('Movie updated successfully 🎉');
+      }
+    }
+  );
+});
+
 // This route will create a new user in the DB
 app.post('/api/users', (req, res) => {
   const { firstname, lastname, email } = req.body;
@@ -101,6 +126,29 @@ app.post('/api/users', (req, res) => {
 // This route will send back Unauthorized
 app.get('/api/users', (req, res) => {
   res.status(401).send('Unauthorized');
+});
+
+// This route will update a user in the DB
+app.put('/api/users/:id', (req, res) => {
+  // We get the ID from the url:
+  const idUser = req.params.id;
+
+  // We get the data from the req.body
+  const newUser = req.body;
+
+  // We send a UPDATE query to the DB
+  connection.query(
+    'UPDATE users SET ? WHERE id = ?',
+    [newUser, idUser],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Error updating a user');
+      } else {
+        res.status(200).send('User updated successfully 🎉');
+      }
+    }
+  );
 });
 
 app.listen(port, () => {
