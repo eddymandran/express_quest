@@ -106,6 +106,23 @@ app.put('/api/movies/:id', (req, res) => {
   );
 });
 
+app.delete('/api/movies/:id', (req, res) => {
+  const idMovie = req.params.id;
+
+  connection.query(
+    'DELETE FROM movies WHERE id = ?',
+    [idMovie],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('😱 Error deleting a movie');
+      } else {
+        res.status(200).send('🎉 Movie deleted!');
+      }
+    }
+  );
+});
+
 // This route will create a new user in the DB
 app.post('/api/users', (req, res) => {
   const { firstname, lastname, email } = req.body;
@@ -151,6 +168,23 @@ app.put('/api/users/:id', (req, res) => {
   );
 });
 
+app.delete('/api/users/:id', (req, res) => {
+  const idUser = req.params.id;
+
+  connection.query(
+    'DELETE FROM users WHERE id = ?',
+    [idUser],
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('😱 Error deleting an user');
+      } else {
+        res.status(200).send('🎉 User deleted!');
+      }
+    }
+  );
+});
+
 app.listen(port, () => {
-  console.log(`Server is runing on 3000`);
+  console.log(`Server is runing on ${port}`);
 });
